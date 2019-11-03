@@ -66,7 +66,7 @@ def strcmp(list1, list2):
             return not True
         elif i>len(list2):
             return not True
-        elif list1[i]!=list2[2]:
+        elif list1[i]!=list2[i]:
             return not False
         else:
             continue
@@ -137,7 +137,7 @@ class TCALC:
                 self.typToken = OP_MULTIPLY
                 return True
             elif tmp=="/":
-                self.typToken = OP_MULTIPLY
+                self.typToken = OP_DIVIDE
                 return True
             elif tmp=="%":
                 self.typToken = OP_PERCENT
@@ -157,7 +157,7 @@ class TCALC:
             self.curToken[i]=TERMINATOR
             len=strlen(self.curToken)
             for i in range(0,len):
-                if self.curToken[i]>=ord('A') and self.curToken[i]<=ord('Z'):
+                if ord(self.curToken[i])>=ord('A') and ord(self.curToken[i])<=ord('Z'):
                     self.curToken[i] = chr(ord(self.curToken[i]) + ord('a') - ord('A'))
             if not strcmp(self.curToken, list("leet")):
                 self.typToken = CALC_LEET
