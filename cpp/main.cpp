@@ -7,45 +7,23 @@
 
 #include "TCALC.h"
 
-int main(int argc, char **argv) {
-    (void)(argc);
-    (void)(argv);
-
+int main() {
     TCALC CALC;
     char expr[255];
-    static double x[10];
-
     cout << "Курсовая работа Ананьева Романа КМБ-1-11" << endl;
     cout << "Введите выражение" << endl;
     cout << "" << endl;
-
-
-    CALC.SetX((double *)&x);
-
-    while(1)
-    {
-        //Ввод выражения в окно
+    while (1) {
         cout << ">>  ";
         cin.getline(expr, 255);
-
-        // если "bb" то закрыться//////////////
-        if(!strcmp(expr, "bb")) break;//ВЫХОД//
-        ///////////////////////////////////////
-
-        try
-            {
-                CALC.Compile(expr);
-                CALC.Evaluate();
-                cout << "Ответ:    " << CALC.GetResult() << endl << endl; 					//Вывод ответа на экран
-                cout << "" <<endl;
-            }
-        catch(TError error)
-            {
-
-                cerr << error.error << " на "<< error.pos << " месте " << endl 				<< endl; // Печать ошибки
-                continue;
-            }
+        try {
+            CALC.Compile(expr);
+            CALC.Evaluate();
+            cout << "Ответ:    " << CALC.GetResult() << endl << endl;
+            cout << "" <<endl;
+        } catch(const char* msg) {
+            cerr << msg << endl;
+            continue;
+        }
     }
-
-    return 0;
 }

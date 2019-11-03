@@ -2,33 +2,6 @@
 #include <ios>
 #include "TCALC.h"
 
-// OPerations
-#define OP_PLUS          0
-#define OP_MINUS         1
-#define OP_MULTIPLY      2
-#define OP_DIVIDE        3
-#define OP_PERCENT       4
-#define OP_POWER         5
-#define OP_UMINUS        6
-#define OP_SIN           7
-#define OP_COS           8
-#define OP_TG            9
-#define OP_CTG           10
-#define OP_ARCSIN        11
-#define OP_ARCCOS        12
-#define OP_ARCTG         13
-#define OP_ARCCTG        14
-#define OP_SH            15
-#define OP_CH            16
-#define OP_TH            17
-#define OP_CTH           18
-#define OP_EXP           19
-#define OP_LG            20
-#define OP_LN            21
-#define OP_SQRT          22
-#define OP_IN            23
-#define OP_X             24
-
 // Определени математических констант
 
 #define M_PI             3.1415926535897932384626433832795
@@ -42,51 +15,20 @@ TCALCNode *TCALC::CreateNode(double _value, TCALCNode *_left, TCALCNode *_right)
 	return pNode;
 }
 
-void TCALC::SendError(int errNum) //Обработчик ошибок
-{
-	static char *errs[10] = 
-	{ NULL,
-	  NULL,
-		"Внезапный конец выражения",
-		"Конец выражения ожидается",
-		"Пропущеннаи открывающая скобка",
-		"Пропущенна закрывающая скобка",
-		NULL
-	};
-	static char buffer[80];
-
-	int len = strlen(curToken);
-
-
-
-	if(*curToken=='\0')
-		strcpy(curToken, "Пустое выражение");
-
-	switch(errNum)
-		{
-			case 0:
-				sprintf(buffer, "Что за хрень: '%s'", curToken);
-				errs[0] = buffer;
-				break;
-
-			case 1:
-				sprintf(buffer, "Что за хрень: '%s'", curToken);
-				errs[1] = buffer;
-				break;
-
-			case 6:
-				sprintf(buffer, "Что за хрень: '%s'", curToken);
-				errs[6] = buffer;
-				break;
-		}
-
-	TError error(errs[errNum], pos-len);
-
-	root = NULL;
-
-	throw error;
-
-	return;
+void TCALC::SendError(int errNum) {
+    if (*curToken=='\0') {
+        strcpy(curToken, "Пустое выражение");
+    } else if (errNum==2) {
+        throw "Внезапный конец выражения";
+    } else if (errNum==3) {
+        throw "Конец выражения ожидается";
+    } else if (errNum==4) {
+        throw "Пропущеннаи открывающая скобка";
+    } else if (errNum==5) {
+        throw "Пропущенна закрывающая скобка";
+    } else {
+        return;
+    }
 }
 
 bool TCALC::GetToken(void)
@@ -109,23 +51,23 @@ bool TCALC::GetToken(void)
 						switch(*curToken)
 							{
 								case '+':
-									typToken = CALC_PLUS;
+                                    typToken = OP_PLUS;
 									return true;
 
 								case '-':
-									typToken = CALC_MINUS;
+                                    typToken = OP_MINUS;
 									return true;
 
 								case '*':
-									typToken = CALC_MULTIPLY;
+                                    typToken = OP_MULTIPLY;
 									return true;
 
 								case '/':
-									typToken = CALC_DIVIDE;
+                                    typToken = OP_DIVIDE;
 									return true;
 
 								case '%':
-									typToken = CALC_PERCENT;
+                                    typToken = OP_PERCENT;
 									return true;
 								case '[': 
 								case '(':
@@ -150,14 +92,7 @@ bool TCALC::GetToken(void)
 			if(curToken[i]>='A' && curToken[i]<='Z')
 				curToken[i] += 'a' - 'A';
 
-		if(!strcmp(curToken, "x"))
-
-			{
-				typToken = CALC_X;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "leet"))
+        if(!strcmp(curToken, "leet"))
 
 			{
 				typToken = CALC_LEET;
@@ -183,42 +118,42 @@ bool TCALC::GetToken(void)
 
 		else if(!strcmp(curToken, "sin"))
 			{
-				typToken = CALC_SIN;
+                typToken = OP_SIN;
 				return true;
 			}
 
 		else if(!strcmp(curToken, "cos"))
 		
 			{
-				typToken = CALC_COS;
+                typToken = OP_COS;
 				return true;
 			}
 
 		else if(!strcmp(curToken, "tg"))
 			
 			{
-				typToken = CALC_TG;
+                typToken = OP_TG;
 				return true;
 			}
 
 		else if(!strcmp(curToken, "ctg"))
 			
 			{
-				typToken = CALC_CTG;
+                typToken = OP_CTG;
 				return true;
 			}
 
 		else if(!strcmp(curToken, "arcsin"))
 			
 			{
-				typToken = CALC_ARCSIN;
+                typToken = OP_ARCSIN;
 				return true;
 			}
 
 		else if(!strcmp(curToken, "arccos"))
 			
 			{
-				typToken = CALC_ARCCOS;
+                typToken = OP_ARCCOS;
 				return true;
 			}
 
@@ -226,7 +161,7 @@ bool TCALC::GetToken(void)
 		else if(!strcmp(curToken, "arcctg"))
 				
 			{
-				typToken = CALC_ARCCTG;
+                typToken = OP_ARCCTG;
 				return true;
 			}
 
@@ -235,56 +170,56 @@ bool TCALC::GetToken(void)
 		else if(!strcmp(curToken, "sh"))
 			
 			{
-				typToken = CALC_SH;
+                typToken = OP_SH;
 				return true;
 			}
 
 		else if(!strcmp(curToken, "ch"))
 
 			{
-				typToken = CALC_CH;
+                typToken = OP_CH;
 				return true;
 			}
 
 		else if(!strcmp(curToken, "th"))
 			
 			{	
-				typToken = CALC_TH;
+                typToken = OP_TH;
 				return true;
 			}
 
 		else if(!strcmp(curToken, "cth"))
 			
 			{
-				typToken = CALC_CTH;
+                typToken = OP_CTH;
 				return true;
 			}
 
 		else if(!strcmp(curToken, "exp"))
 			
 			{
-				typToken = CALC_EXP;
+                typToken = OP_EXP;
 				return true;
 			}
 
 		else if(!strcmp(curToken, "lg"))
 			
 			{
-				typToken = CALC_LG;
+                typToken = OP_LG;
 				return true;
 			}
 
 		else if(!strcmp(curToken, "ln"))
 			
 			{
-				typToken = CALC_LN;
+                typToken = OP_LN;
 				return true;
 			}
 
 		else if(!strcmp(curToken, "sqrt"))
 		
 			{
-				typToken = CALC_SQRT;
+                typToken = OP_SQRT;
 				return true;
 			}
 
@@ -318,7 +253,7 @@ bool TCALC::GetToken(void)
 	}
 
 	return false;
-}      
+}
 
 bool TCALC::Compile(char *_expr)
 {
@@ -332,8 +267,8 @@ bool TCALC::Compile(char *_expr)
 			root = NULL;
 		}
 
-	GetToken();
-	if(typToken==CALC_END) SendError(2);
+    GetToken();
+    if(typToken==CALC_END) SendError(2);
 
 	root = Expr();
 	if(typToken!=CALC_END) SendError(3);
@@ -346,13 +281,13 @@ TCALCNode *TCALC::Expr(void)
 
 	while(1)
 	{
-		if(typToken == CALC_PLUS)
+        if(typToken == OP_PLUS)
 			{
 				GetToken();
 				temp = CreateNode(OP_PLUS, temp, Expr1());
 			}
 
-		else if(typToken==CALC_MINUS)
+        else if(typToken==OP_MINUS)
 			{
 				GetToken();
 				temp = CreateNode(OP_MINUS, temp, Expr1());
@@ -368,26 +303,26 @@ TCALCNode *TCALC::Expr(void)
 
 TCALCNode *TCALC::Expr1(void)
 {
-	TCALCNode *temp = Expr2();
+    TCALCNode *temp = Expr2();
 
 	while(1)
 	{
-		if(typToken==CALC_MULTIPLY)
+        if(typToken==OP_MULTIPLY)
 			{
 				GetToken();
-				temp = CreateNode(OP_MULTIPLY, temp, Expr2());
+                temp = CreateNode(OP_MULTIPLY, temp, Expr2());
 			}
 
-		else if(typToken==CALC_DIVIDE)
+        else if(typToken==OP_DIVIDE)
 			{
 				GetToken();
-				temp = CreateNode(OP_DIVIDE, temp, Expr2());
+                temp = CreateNode(OP_DIVIDE, temp, Expr2());
 			}
 
-		else if(typToken==CALC_PERCENT)
+        else if(typToken==OP_PERCENT)
 			{
 				GetToken();
-				temp = CreateNode(OP_PERCENT, temp, Expr2());
+                temp = CreateNode(OP_PERCENT, temp, Expr2());
 			}
 		else break;
 	}
@@ -395,42 +330,42 @@ TCALCNode *TCALC::Expr1(void)
 	return temp;
 }
 
-TCALCNode *TCALC::Expr2(void)
+/*TCALCNode *TCALC::Expr2(void)
 {
     TCALCNode *temp = Expr3();
     return temp;
+}*/
+
+TCALCNode *TCALC::Expr2(void)
+{
+	TCALCNode *temp;
+
+    if(typToken==OP_PLUS)
+	{
+		GetToken();
+        temp = Expr3();
+	}
+
+
+    else if(typToken==OP_MINUS)
+	{
+		GetToken();
+        temp = CreateNode(OP_UMINUS, Expr3());
+	}
+
+	else
+        temp = Expr3();
+
+	return temp;      
 }
 
 TCALCNode *TCALC::Expr3(void)
 {
 	TCALCNode *temp;
 
-	if(typToken==CALC_PLUS)
-	{
-		GetToken();
-		temp = Expr4();
-	}
-
-
-	else if(typToken==CALC_MINUS)
-	{
-		GetToken();
-		temp = CreateNode(OP_UMINUS, Expr4());
-	}
-
-	else
-		temp = Expr4();
-
-	return temp;      
-}
-
-TCALCNode *TCALC::Expr4(void)
-{
-	TCALCNode *temp;
-
-	if(typToken >= CALC_SIN && typToken<=CALC_X)
+    if(typToken >= OP_SIN && typToken<=OP_SQRT+1)
 		{
-			temp = CreateNode(OP_SIN-CALC_SIN+typToken);
+            temp = CreateNode(OP_SIN-OP_SIN+typToken);
 			GetToken();
 
 			if(typToken!=CALC_L_BRACKET)
@@ -445,12 +380,12 @@ TCALCNode *TCALC::Expr4(void)
 		}
 
 	else
-		temp = Expr5();
+        temp = Expr4();
 
 	return temp;
 }
 
-TCALCNode *TCALC::Expr5(void)
+TCALCNode *TCALC::Expr4(void)
 {
 	TCALCNode *temp;
 
@@ -597,9 +532,6 @@ double TCALC::CalcTree(TCALCNode *tree) // Обработчик действий
 		case OP_SQRT:
 			return sqrt(CalcTree(tree->left));
 			// "(tree->left)^(1/2)"
-
-		case OP_X:	
-			return x[int(CalcTree(tree->left))];
 
 		case OP_IN:
 			return 1;
