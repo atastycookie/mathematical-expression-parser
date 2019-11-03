@@ -1,8 +1,6 @@
-Ant1Freeze.cpp
-
 #include <math.h>
 #include <ios>
-#include "Ant1Freeze.h"
+#include "TCALC.h"
 
 // OPerations
 #define OP_PLUS          0
@@ -129,13 +127,7 @@ bool TCALC::GetToken(void)
 								case '%':
 									typToken = CALC_PERCENT;
 									return true;
-
-								case '^':
-									typToken = CALC_POWER;
-									return true;
-
 								case '[': 
-
 								case '(':
 									typToken = CALC_L_BRACKET;
 									return true;
@@ -169,13 +161,6 @@ bool TCALC::GetToken(void)
 
 			{
 				typToken = CALC_LEET;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "e"))
-
-			{
-				typToken = CALC_EXP1;
 				return true;
 			}
 
@@ -237,12 +222,6 @@ bool TCALC::GetToken(void)
 				return true;
 			}
 
-		else if(!strcmp(curToken, "arctg"))
-			
-			{
-				typToken = CALC_ARCTG;
-				return true;
-			}
 
 		else if(!strcmp(curToken, "arcctg"))
 				
@@ -418,21 +397,8 @@ TCALCNode *TCALC::Expr1(void)
 
 TCALCNode *TCALC::Expr2(void)
 {
-	TCALCNode *temp = Expr3();
-
-	while(1)
-	{
-
-		if(typToken==CALC_POWER)
-			{
-				GetToken();
-				temp = CreateNode(OP_POWER, temp, Expr2());
-			}
-
-		else break;
-	}
-
-	return temp;
+    TCALCNode *temp = Expr3();
+    return temp;
 }
 
 TCALCNode *TCALC::Expr3(void)
@@ -493,39 +459,25 @@ TCALCNode *TCALC::Expr5(void)
 			case CALC_NUMBER:
 				temp = CreateNode((double)atof(curToken));
 				GetToken();
-			break;
-
+                break;
 			case CALC_PI:
 				temp = CreateNode((double)M_PI);
 				GetToken();
 				break;
-
 			case CALC_G:
 				temp =CreateNode((double)F_G);
 				GetToken();
 				break;
-
-
-
-
-
 			case CALC_L_BRACKET:
 				GetToken();
 				temp = Expr();
 				if(typToken!=CALC_R_BRACKET) SendError(5);
 				GetToken();
 				break;
-
-			case CALC_EXP1:
-				temp = CreateNode((double) M_E);
-				GetToken();
-				break;
-
 			case CALC_LEET:
 				temp = CreateNode((double) H_LEET);
 				GetToken();
 				break;
-
 			default:
 				SendError(6);
 	}
