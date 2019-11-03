@@ -6,6 +6,12 @@
 
 using namespace std;
 
+// Math consts
+#define M_PI             3.1415926535897932384626433832795
+#define F_G              9.81
+#define M_E              2.71828182845904523536
+#define H_LEET           1337
+
 // Defines
 #define MAX_EXPR_LEN   255
 #define MAX_TOKEN_LEN  80
@@ -85,40 +91,19 @@ class TCALC {
     TCALCNode *Expr3(void);
     TCALCNode *Expr4(void);
     bool GetToken(void);
-    bool IsDelim(void) {
-        return (strchr("+-*/%^()[]", expr[pos])!=nullptr);
-	}   
-    bool IsLetter(void) {
-		return ((expr[pos]>='a' && expr[pos]<='z') ||    
-		(expr[pos]>='A' && expr[pos]<='Z'));             
-	}       
-	bool IsDigit(void) {
-        return (expr[pos]>='0' && expr[pos]<='9');
-	} 
-    bool IsPoint(void) {
-        return (expr[pos]=='.');
-	}                        
+    bool IsDelim(void);
+    bool IsLetter(void);
+    bool IsDigit(void);
+    bool IsPoint(void);
 	double CalcTree(TCALCNode *tree);
 	void  DelTree(TCALCNode *tree);
 	void SendError(int errNum);
   public:
-	TCALC() { 
-        result = 0.0;
-        root = nullptr;
-	}
-	~TCALC() {
-		DelTree(root);
-        root=nullptr;
-	}
+    TCALC();
+    ~TCALC();
 	bool Compile(char *expr);
-	void Decompile() { 
-		DelTree(root);
-        root=nullptr;
-	}
 	double Evaluate();
-	double GetResult(void) {
-		return result; 
-	}
+    double GetResult(void);
 };
 
 /*****************************************************************************/
