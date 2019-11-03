@@ -354,5 +354,62 @@ class TCALC:
     def Evaluate(self):
         self.result=self.CalcTree(self.root)
     @classmethod
-    def CalcTree(self, root):
-        pass
+    def CalcTree(self, tree):
+        temp = 0
+        if tree.left==None and tree.right==None:
+            return tree.value
+        else:
+            op = tree.value
+            if op==OP_PLUS:
+                return self.CalcTree(tree.left)+self.CalcTree(tree.right)
+            elif op==OP_MINUS:
+                return self.CalcTree(tree.left)-self.CalcTree(tree.right)
+            elif op==OP_MULTIPLY:
+                return self.CalcTree(tree.left)*self.CalcTree(tree.right)
+            elif op==OP_DIVIDE:
+                return self.CalcTree(tree.left)/self.CalcTree(tree.right)
+            elif op==OP_PERCENT:
+                return self.CalcTree(tree.left) % (self.CalcTree(tree.right))
+            elif op==OP_POWER:
+                return math.pow(self.CalcTree(tree.left),self.CalcTree(tree.right))
+            elif op==OP_UMINUS:
+                return -self.CalcTree(tree.left)
+            elif op==OP_SIN:
+                return math.sin(self.CalcTree(tree.left))
+            elif op==OP_COS:
+                return math.cos(self.CalcTree(tree.left))
+            elif op==OP_TG:
+                return math.tan(self.CalcTree(tree.left))
+            elif op==OP_CTG:
+                return 1.0/math.tan(self.CalcTree(tree.left))
+            elif op==OP_ARCSIN:
+                return math.asin(self.CalcTree(tree.left))
+            elif op==OP_ARCCOS:
+                return math.acos(self.CalcTree(tree.left))
+            elif op==OP_ARCTG:
+                return math.atan(self.CalcTree(tree.left))
+            elif op==OP_ARCCTG:
+                return M_PI/2.0-math.atan(self.CalcTree(tree.left))
+            elif op==OP_SH:
+                temp = self.CalcTree(tree.left)
+                return (math.exp(temp)-math.exp(-temp))/2.0
+            elif op==OP_CH:
+                temp = self.CalcTree(tree.left)
+                return (math.exp(temp)+math.exp(-temp))/2.0
+            elif op==OP_TH:
+                temp = self.CalcTree(tree.left)
+                return (math.exp(temp)-math.exp(-temp))/(math.exp(temp)+math.exp(-temp))
+            elif op==OP_CTH:
+                temp = self.CalcTree(tree.left)
+                return (math.exp(temp)+math.exp(-temp))/(math.exp(temp)-math.exp(-temp))
+            elif op==OP_EXP:
+                return math.exp(self.CalcTree(tree.left))
+            elif op==OP_LG:
+                return math.log10(self.CalcTree(tree.left))
+            elif op==OP_LN:
+                return math.log(self.CalcTree(tree.left))
+            elif op==OP_SQRT:
+                return math.sqrt(self.CalcTree(tree.left))
+            elif op==OP_IN:
+                return 1
+        return 0
