@@ -28,4 +28,7 @@ Temporary Items
 
 # Dist folder and other files
 build*
+__pycache__
 *.pro.user
+*.pyc
+
