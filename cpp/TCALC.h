@@ -70,13 +70,6 @@ class TCALC {
 	TCALCNode *root;
 	char *expr;
 	char curToken[MAX_TOKEN_LEN];
-    /*enum {
-        CALC_PLUS, CALC_MINUS, CALC_MULTIPLY, CALC_DIVIDE, CALC_PERCENT, ALC_POWER,
-        CALC_SIN, CALC_COS, CALC_TG, CALC_CTG, CALC_ARCSIN, CALC_ARCCOS, ALC_ARCTG,
-        CALC_ARCCTG, CALC_SH, CALC_CH, CALC_TH, CALC_CTH, CALC_EXP, CALC_LG,
-        CALC_LN, CALC_SQRT, CALC_X, CALC_L_BRACKET, CALC_R_BRACKET, CALC_E,
-        CALC_PI, CALC_NUMBER, CALC_END, CALC_G, ALC_EXP1,CALC_LEET
-    } typToken; //используемые действия, константы*/
     int typToken;
     int pos;
 	double result;

@@ -31,228 +31,133 @@ void TCALC::SendError(int errNum) {
     }
 }
 
-bool TCALC::GetToken(void)
-{
-	*curToken = '\0';
-
-	while(expr[pos]==' ') pos++;
-
-		if(expr[pos]=='\0')
-		{
-			curToken[0] = '\0';
-			typToken = CALC_END;
-			return true;
-		}
-	else
-			if(IsDelim())
-				{
-					curToken[0] = expr[pos++];
-					curToken[1] = '\0';
-						switch(*curToken)
-							{
-								case '+':
-                                    typToken = OP_PLUS;
-									return true;
-
-								case '-':
-                                    typToken = OP_MINUS;
-									return true;
-
-								case '*':
-                                    typToken = OP_MULTIPLY;
-									return true;
-
-								case '/':
-                                    typToken = OP_DIVIDE;
-									return true;
-
-								case '%':
-                                    typToken = OP_PERCENT;
-									return true;
-								case '[': 
-								case '(':
-									typToken = CALC_L_BRACKET;
-									return true;
-
-								case ']': 
-
-								case ')':
-									typToken = CALC_R_BRACKET;
-									return true;
-							}
-				}
-	else if(IsLetter())
-	{
-		int i=0;
-		while(IsLetter()) curToken[i++] = expr[pos++];
-		curToken[i] = '\0';
-
-		int len = strlen(curToken);
-		for(i=0; i<len; i++)
-			if(curToken[i]>='A' && curToken[i]<='Z')
-				curToken[i] += 'a' - 'A';
-
-        if(!strcmp(curToken, "leet"))
-
-			{
-				typToken = CALC_LEET;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "g")) 
-
-			{
-				typToken = CALC_G;
-				return true;
-			}
-
-
-
-
-		else if(!strcmp(curToken, "pi"))
-			
-			{
-				typToken = CALC_PI;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "sin"))
-			{
-                typToken = OP_SIN;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "cos"))
-		
-			{
-                typToken = OP_COS;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "tg"))
-			
-			{
-                typToken = OP_TG;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "ctg"))
-			
-			{
-                typToken = OP_CTG;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "arcsin"))
-			
-			{
-                typToken = OP_ARCSIN;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "arccos"))
-			
-			{
-                typToken = OP_ARCCOS;
-				return true;
-			}
-
-
-		else if(!strcmp(curToken, "arcctg"))
-				
-			{
-                typToken = OP_ARCCTG;
-				return true;
-			}
-
-
-
-		else if(!strcmp(curToken, "sh"))
-			
-			{
-                typToken = OP_SH;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "ch"))
-
-			{
-                typToken = OP_CH;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "th"))
-			
-			{	
-                typToken = OP_TH;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "cth"))
-			
-			{
-                typToken = OP_CTH;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "exp"))
-			
-			{
-                typToken = OP_EXP;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "lg"))
-			
-			{
-                typToken = OP_LG;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "ln"))
-			
-			{
-                typToken = OP_LN;
-				return true;
-			}
-
-		else if(!strcmp(curToken, "sqrt"))
-		
-			{
-                typToken = OP_SQRT;
-				return true;
-			}
-
-		else SendError(0);
-	}
-
-
-
-
-
-
-	else if(IsDigit() || IsPoint())
-	{
-		int i=0;
-		while(IsDigit()) curToken[i++] = expr[pos++];
-		if(IsPoint())
-			{
-				curToken[i++] = expr[pos++];
-				while(IsDigit()) curToken[i++] = expr[pos++];
-			}
-		curToken[i] = '\0';
-		typToken = CALC_NUMBER;
-		return true;
-	}
-
-	else
-	{
-		curToken[0] = expr[pos++];
-		curToken[1] = '\0';
-		SendError(1);
-	}
-
-	return false;
+bool TCALC::GetToken(void) {
+    *curToken = '\0';
+    while (expr[pos]==' ') {
+        pos++;
+    }
+    if (expr[pos]=='\0') {
+        curToken[0] = '\0';
+        typToken = CALC_END;
+        return true;
+    } else if (IsDelim()) {
+        curToken[0] = expr[pos++];
+        curToken[1] = '\0';
+        switch(*curToken) {
+            case '+':
+                typToken = OP_PLUS;
+                return true;
+            case '-':
+                typToken = OP_MINUS;
+                return true;
+            case '*':
+                typToken = OP_MULTIPLY;
+                return true;
+            case '/':
+                typToken = OP_DIVIDE;
+                return true;
+            case '%':
+                typToken = OP_PERCENT;
+                return true;
+            case '[':
+            case '(':
+                typToken = CALC_L_BRACKET;
+                return true;
+            case ']':
+            case ')':
+                typToken = CALC_R_BRACKET;
+                return true;
+        }
+    } else if (IsLetter()) {
+        int i=0;
+        while (IsLetter()) {
+            curToken[i++] = expr[pos++];
+        }
+        curToken[i] = '\0';
+        int len = strlen(curToken);
+        for (i=0; i<len; i++) {
+            if (curToken[i]>='A' && curToken[i]<='Z') {
+                curToken[i] += 'a' - 'A';
+            }
+        }
+        if (!strcmp(curToken, "leet"))
+        {
+            typToken = CALC_LEET;
+            return true;
+        } else if (!strcmp(curToken, "g")) {
+            typToken = CALC_G;
+            return true;
+        } else if (!strcmp(curToken, "pi")) {
+            typToken = CALC_PI;
+            return true;
+        } else if (!strcmp(curToken, "sin")) {
+            typToken = OP_SIN;
+            return true;
+        } else if(!strcmp(curToken, "cos")) {
+            typToken = OP_COS;
+            return true;
+        } else if(!strcmp(curToken, "tg")) {
+            typToken = OP_TG;
+            return true;
+        } else if(!strcmp(curToken, "ctg")) {
+            typToken = OP_CTG;
+            return true;
+        } else if(!strcmp(curToken, "arcsin")) {
+            typToken = OP_ARCSIN;
+            return true;
+        } else if(!strcmp(curToken, "arccos")) {
+            typToken = OP_ARCCOS;
+            return true;
+        } else if(!strcmp(curToken, "arcctg")) {
+            typToken = OP_ARCCTG;
+            return true;
+        } else if(!strcmp(curToken, "sh")) {
+            typToken = OP_SH;
+            return true;
+        } else if(!strcmp(curToken, "ch")) {
+            typToken = OP_CH;
+            return true;
+        } else if(!strcmp(curToken, "th")) {
+            typToken = OP_TH;
+            return true;
+        } else if(!strcmp(curToken, "cth")) {
+            typToken = OP_CTH;
+            return true;
+        } else if(!strcmp(curToken, "exp")) {
+            typToken = OP_EXP;
+            return true;
+        } else if(!strcmp(curToken, "lg")) {
+            typToken = OP_LG;
+            return true;
+        } else if(!strcmp(curToken, "ln")) {
+            typToken = OP_LN;
+            return true;
+        } else if(!strcmp(curToken, "sqrt")) {
+            typToken = OP_SQRT;
+            return true;
+        } else {
+            SendError(0);
+        }
+    } else if(IsDigit() || IsPoint()) {
+        int i=0;
+        while(IsDigit()) {
+            curToken[i++] = expr[pos++];
+        }
+        if(IsPoint()) {
+            curToken[i++] = expr[pos++];
+            while(IsDigit()) {
+                curToken[i++] = expr[pos++];
+            }
+        }
+        curToken[i] = '\0';
+        typToken = CALC_NUMBER;
+        return true;
+    } else {
+        curToken[0] = expr[pos++];
+        curToken[1] = '\0';
+        SendError(1);
+    }
+    return false;
 }
 
 bool TCALC::Compile(char *_expr)
